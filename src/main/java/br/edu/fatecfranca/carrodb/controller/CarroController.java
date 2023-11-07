@@ -1,7 +1,6 @@
 package br.edu.fatecfranca.carrodb.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.fatecfranca.carrodb.model.entity.Carro;
+import br.edu.fatecfranca.carrodb.model.dto.CarroDto;
 import br.edu.fatecfranca.carrodb.service.CarroService;
 
 @RestController
@@ -23,19 +22,19 @@ public class CarroController {
 	CarroService servico;
 
 	@GetMapping
-	public List<Carro> getCarros(){
+	public List<CarroDto> getCarros(){
 		return servico.getCarros();
 	}
 
 	@GetMapping("/{id}")
-	public Optional <Carro> getCarro (@PathVariable Long id) {
-		Optional<Carro> prod = servico.getCarro(id);
+	public CarroDto getCarro (@PathVariable Long id) {
+		CarroDto prod = servico.getCarro(id);
 		return prod;
 	}
 	
 	@PostMapping
-	public Carro addCarro(@RequestBody Carro carro) {
-		return servico.addCarro(carro);
+	public CarroDto addCarro(@RequestBody CarroDto carroDto) {
+		return servico.addCarro(carroDto);
 	}
 
 	@DeleteMapping("/{id}")
@@ -45,7 +44,7 @@ public class CarroController {
 	}
 
 	@PutMapping()
-	public Carro updateCarro(@RequestBody Carro carro) {
-		return servico.updateCarro(carro);
+	public CarroDto updateCarro(@RequestBody CarroDto carroDto) {
+		return servico.updateCarro(carroDto);
 	}
 }

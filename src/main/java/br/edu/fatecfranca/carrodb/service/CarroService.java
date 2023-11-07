@@ -1,5 +1,6 @@
 package br.edu.fatecfranca.carrodb.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,13 +24,17 @@ public class CarroService {
 	
 	@GetMapping
 	public List<CarroDto> getCarros(){
-		return injecao.findAll();
+		List<Carro> carros = injecao.findAll();
+		return converteListaCarrostoListaDtos(carros);
 	}
 	
 	@GetMapping("/{id}")
-	public Optional <CarroDto> getCarro (@PathVariable Long id) {
-		Optional<CarroDto> prod = converteCarroToDto(injecao.findById(id));
-		return prod;
+	public CarroDto getCarro (@PathVariable Long id) {
+		Optional<Carro> optional = injecao.findById(id);
+		if (optional.isPresent()) {
+			return converteCarroToDto(optional.get());
+		}
+		return null;
 	}
 	
 	@PostMapping
@@ -68,6 +73,14 @@ public class CarroService {
 		dto.setCor(carro.getCor());
 		dto.setAno(carro.getAno());
 		return dto;
+	}
+	
+	public List<CarroDto> converteListaCarrostoListaDtos(List<Carro> carros){
+		List<CarroDto> listaDto = new ArrayList<CarroDto>();
+		for(int i=0;i<carros.size();i++) {
+			listaDto.add(converteCarroToDto(carros.get(i)));
+		}
+		return listaDto;
 	}
 
 }
